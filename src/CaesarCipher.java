@@ -58,18 +58,19 @@ public class CaesarCipher {
     /* ===== Демонстрация работы ===== */
 
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
+        try (Scanner sc = new Scanner(System.in)) {
 
-        System.out.print("Введите сообщение: ");
-        String text = sc.nextLine();
+            System.out.print("Введите сообщение: ");
+            String text = sc.nextLine();
 
-        System.out.print("Сдвиг (целое число): ");
-        int k = sc.nextInt();
+            System.out.print("Сдвиг (целое число): ");
+            int k = sc.nextInt();
 
-        String cipher = encrypt(text, k);
-        String plain  = decrypt(cipher, k);
+            String cipher = encrypt(text, k);
+            String plain  = decrypt(cipher, k);
 
-        System.out.printf("Зашифровано: %s%n", cipher);
-        System.out.printf("Расшифровано: %s%n", plain);
+            System.out.printf("Зашифровано: %s%n", cipher);
+            System.out.printf("Расшифровано: %s%n", plain);
+        }
     }
 }
