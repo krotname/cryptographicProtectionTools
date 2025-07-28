@@ -11,6 +11,9 @@ public class VigenereCipher {
 
     /** Шифрование */
     public static String encrypt(String plaintext, String key) {
+        if (key.length() == 0) {
+            throw new IllegalArgumentException("Key must not be empty");
+        }
         StringBuilder out = new StringBuilder();
         key = key.toUpperCase();
         int keyPos = 0;
@@ -33,6 +36,9 @@ public class VigenereCipher {
 
     /** Расшифрование (обратный сдвиг) */
     public static String decrypt(String ciphertext, String key) {
+        if (key.length() == 0) {
+            throw new IllegalArgumentException("Key must not be empty");
+        }
         StringBuilder out = new StringBuilder();
         key = key.toUpperCase();
         int keyPos = 0;
