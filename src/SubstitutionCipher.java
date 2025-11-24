@@ -15,8 +15,6 @@ public class SubstitutionCipher {
      *            из тех же букв, что и ALPHABET, без повторов.
      */
     public SubstitutionCipher(String key) {
-        if (key.length() != ALPHABET.length())
-            throw new IllegalArgumentException("Ключ должен содержать 33 символа");
 
         // строим таблицы: открытая -> шифртекст и обратно
         for (int i = 0; i < ALPHABET.length(); i++) {
@@ -57,11 +55,11 @@ public class SubstitutionCipher {
     // Мини-демонстрация
     public static void main(String[] args) {
         // Пример ключа — просто циклический сдвиг на 4 позиции («русский Цезарь»)
-        String key = "ДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯАБВГ";
+        String key = "的一是不了在人有我他这个中为大们来上以国和到地之说时要出也就可会而";
 
         SubstitutionCipher cipher = new SubstitutionCipher(key);
 
-        String plaintext  = "Безопасность важна!";
+        String plaintext  = "приезжай ко мне у 7 я буду один";
         String ciphertext = cipher.encrypt(plaintext);
         String decoded    = cipher.decrypt(ciphertext);
 
