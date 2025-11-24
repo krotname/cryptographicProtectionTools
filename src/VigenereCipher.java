@@ -4,76 +4,74 @@
  *  – остальные символы (пробелы, знаки препинания) копируются без изменений;
  *  – ключ повторяется по длине открытого текста.
  */
-public class VigenereCipher {
 
-    private static final String ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    private static final int N = ALPHABET.length();
+private static final String ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+private static final int N = ALPHABET.length();
 
-    /** Шифрование */
-    public static String encrypt(String plaintext, String key) {
-        if (key.length() == 0) {
-            throw new IllegalArgumentException("Key must not be empty");
-        }
-        StringBuilder out = new StringBuilder();
-        key = key.toUpperCase();
-        int keyPos = 0;
-
-        for (char ch : plaintext.toCharArray()) {
-            int idx = ALPHABET.indexOf(Character.toUpperCase(ch));
-            if (idx != -1) {                         // символ из алфавита
-                int shift = ALPHABET.indexOf(key.charAt(keyPos));
-                int encIdx = (idx + shift) % N;
-                char enc = matchCase(ALPHABET.charAt(encIdx), ch);
-                out.append(enc);
-
-                keyPos = (keyPos + 1) % key.length();
-            } else {                                // любые другие символы
-                out.append(ch);
-            }
-        }
-        return out.toString();
+/** Шифрование */
+public static String encrypt(String plaintext, String key) {
+    if (key.length() == 0) {
+        throw new IllegalArgumentException("Key must not be empty");
     }
+    StringBuilder out = new StringBuilder();
+    key = key.toUpperCase();
+    int keyPos = 0;
 
-    /** Расшифрование (обратный сдвиг) */
-    public static String decrypt(String ciphertext, String key) {
-        if (key.length() == 0) {
-            throw new IllegalArgumentException("Key must not be empty");
+    for (char ch : plaintext.toCharArray()) {
+        int idx = ALPHABET.indexOf(Character.toUpperCase(ch));
+        if (idx != -1) {                         // символ из алфавита
+            int shift = ALPHABET.indexOf(key.charAt(keyPos));
+            int encIdx = (idx + shift) % N;
+            char enc = matchCase(ALPHABET.charAt(encIdx), ch);
+            out.append(enc);
+
+            keyPos = (keyPos + 1) % key.length();
+        } else {                                // любые другие символы
+            out.append(ch);
         }
-        StringBuilder out = new StringBuilder();
-        key = key.toUpperCase();
-        int keyPos = 0;
+    }
+    return out.toString();
+}
 
-        for (char ch : ciphertext.toCharArray()) {
-            int idx = ALPHABET.indexOf(Character.toUpperCase(ch));
-            if (idx != -1) {
-                int shift = ALPHABET.indexOf(key.charAt(keyPos));
-                int decIdx = (idx - shift + N) % N;
-                char dec = matchCase(ALPHABET.charAt(decIdx), ch);
-                out.append(dec);
+/** Расшифрование (обратный сдвиг) */
+public static String decrypt(String ciphertext, String key) {
+    if (key.length() == 0) {
+        throw new IllegalArgumentException("Key must not be empty");
+    }
+    StringBuilder out = new StringBuilder();
+    key = key.toUpperCase();
+    int keyPos = 0;
 
-                keyPos = (keyPos + 1) % key.length();
-            } else {
-                out.append(ch);
-            }
+    for (char ch : ciphertext.toCharArray()) {
+        int idx = ALPHABET.indexOf(Character.toUpperCase(ch));
+        if (idx != -1) {
+            int shift = ALPHABET.indexOf(key.charAt(keyPos));
+            int decIdx = (idx - shift + N) % N;
+            char dec = matchCase(ALPHABET.charAt(decIdx), ch);
+            out.append(dec);
+
+            keyPos = (keyPos + 1) % key.length();
+        } else {
+            out.append(ch);
         }
-        return out.toString();
     }
+    return out.toString();
+}
 
-    /** Сохраняет регистр символа-образца (удобно для смешанного текста) */
-    private static char matchCase(char template, char sample) {
-        return Character.isLowerCase(sample) ? Character.toLowerCase(template)
-                : template;
-    }
+/** Сохраняет регистр символа-образца (удобно для смешанного текста) */
+private static char matchCase(char template, char sample) {
+    return Character.isLowerCase(sample) ? Character.toLowerCase(template)
+            : template;
+}
 
-    // Пример использования
-    public static void main(String[] args) {
-        String plain = "Attack at dawn!";
-        String key   = "LEMON";
+// Пример использования
+void main() {
+    String plain = "Attack at dawn!";
+    String key = "LEMON";
 
-        String cipher = encrypt(plain, key);
-        System.out.println("Ciphertext:  " + cipher);      // Lxfopv ef rnhr!
+    String cipher = encrypt(plain, key);
+    IO.println("Ciphertext:  " + cipher);      // Lxfopv ef rnhr!
 
-        String decoded = decrypt(cipher, key);
-        System.out.println("Decrypted :  " + decoded);     // Attack at dawn!
-    }
+    String decoded = decrypt(cipher, key);
+    IO.println("Decrypted :  " + decoded);     // Attack at dawn!
 }
