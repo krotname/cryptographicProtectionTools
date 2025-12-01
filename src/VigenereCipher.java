@@ -5,12 +5,12 @@
  *  – ключ повторяется по длине открытого текста.
  */
 
-private static final String ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+private static final String ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZпро";
 private static final int N = ALPHABET.length();
 
 /** Шифрование */
 public static String encrypt(String plaintext, String key) {
-    if (key.length() == 0) {
+    if (key.isEmpty()) {
         throw new IllegalArgumentException("Key must not be empty");
     }
     StringBuilder out = new StringBuilder();
@@ -19,8 +19,9 @@ public static String encrypt(String plaintext, String key) {
 
     for (char ch : plaintext.toCharArray()) {
         int idx = ALPHABET.indexOf(Character.toUpperCase(ch));
-        if (idx != -1) {                         // символ из алфавита
-            int shift = ALPHABET.indexOf(key.charAt(keyPos));
+        if (idx != -1) {
+            char c = key.charAt(keyPos);// символ из алфавита
+            int shift = ALPHABET.indexOf(c);
             int encIdx = (idx + shift) % N;
             char enc = matchCase(ALPHABET.charAt(encIdx), ch);
             out.append(enc);
@@ -35,7 +36,7 @@ public static String encrypt(String plaintext, String key) {
 
 /** Расшифрование (обратный сдвиг) */
 public static String decrypt(String ciphertext, String key) {
-    if (key.length() == 0) {
+    if (key.isEmpty()) {
         throw new IllegalArgumentException("Key must not be empty");
     }
     StringBuilder out = new StringBuilder();
@@ -66,12 +67,15 @@ private static char matchCase(char template, char sample) {
 
 // Пример использования
 void main() {
-    String plain = "Attack at dawn!";
-    String key = "LEMON";
+    String plain = "I don't eat soup on Fridays";
+    String key = "LEmoN";
+
+    IO.println("Plain text :  " + plain);
+    IO.println("Key :  " + key);
 
     String cipher = encrypt(plain, key);
-    IO.println("Ciphertext:  " + cipher);      // Lxfopv ef rnhr!
+    IO.println("Ciphertext:  " + cipher);
 
     String decoded = decrypt(cipher, key);
-    IO.println("Decrypted :  " + decoded);     // Attack at dawn!
+    IO.println("Decrypted :  " + decoded);
 }

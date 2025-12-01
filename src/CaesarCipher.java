@@ -7,12 +7,13 @@ public static String encrypt(String plaintext, int shift) {
 
         /** Расшифрование (достаточно инвертировать сдвиг) */
         public static String decrypt(String ciphertext, int shift) {
+
             return transform(ciphertext, -shift);
         }
 
         /* ===== Приватная «кухня» ===== */
 
-        /** Универсальное преобразование */
+        /** Для каждого символа String input вызывается метод shiftChar*/
         private static String transform(String input, int shift) {
             StringBuilder sb = new StringBuilder();
 
@@ -35,6 +36,12 @@ public static String encrypt(String plaintext, int shift) {
             return ch;
         }
 
+        private static char shiftWithinRange(char ch, int shift, char base, int alphabetSize) {
+            // приводим сдвиг к диапазону [0; alphabetSize-1]
+            int offset = ((ch - base) + (shift % alphabetSize) + alphabetSize) % alphabetSize;
+            return (char) (base + offset);
+        }
+
         /* ===== Служебные методы ===== */
 
         private static boolean isLatin(char ch) {
@@ -45,11 +52,6 @@ public static String encrypt(String plaintext, int shift) {
             return (ch >= 'А' && ch <= 'Я') || (ch >= 'а' && ch <= 'я');
         }
 
-        private static char shiftWithinRange(char ch, int shift, char base, int alphabetSize) {
-            // приводим сдвиг к диапазону [0; alphabetSize-1]
-            int offset = ((ch - base) + (shift % alphabetSize) + alphabetSize) % alphabetSize;
-            return (char) (base + offset);
-        }
 
         /* ===== Демонстрация работы ===== */
 
@@ -59,13 +61,15 @@ public static String encrypt(String plaintext, int shift) {
                 IO.print("Введите сообщение: ");
                 String text = sc.nextLine();
 
-                IO.print("Сдвиг (целое число): ");
-                int k = sc.nextInt();
-
-                String cipher = encrypt(text, k);
-                String plain = decrypt(cipher, k);
-
+                String cipher = encrypt(text, 3);
                 System.out.printf("Зашифровано: %s%n", cipher);
-                System.out.printf("Расшифровано: %s%n", plain);
+                long l = System.currentTimeMillis();
+
+                for (int i = -330_000_000; i< 330_000_000 ;i++ ){
+                    String plain = decrypt(cipher, i);
+
+                }
+                System.out.println("подбор завершён секунд за " + (System.currentTimeMillis() - l)/1000 );
             }
+
         }

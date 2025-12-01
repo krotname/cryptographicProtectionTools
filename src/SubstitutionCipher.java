@@ -59,7 +59,7 @@ public class SubstitutionCipher {
 
         SubstitutionCipher cipher = new SubstitutionCipher(key);
 
-        String plaintext  = "приезжай ко мне у 7 я буду один";
+        String plaintext  = "приезжай ко мне в 7 я буду один";
         String ciphertext = cipher.encrypt(plaintext);
         String decoded    = cipher.decrypt(ciphertext);
 
